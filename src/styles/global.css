@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* =========================================
+   DARK MODE POR CLASE
+========================================= */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================
+   THEME BASE (LIGHT MODE)
+========================================= */
+@theme {
+
+  /* ========= PRIMARY ========= */
+  --color-primary-100: #863346;
+  --color-primary-400: #9C4A5E;
+  --color-primary-600: #6F2A3A;
+
+  /* ========= BACKGROUNDS ========= */
+  --color-background: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-muted-bg: #F3F4F6;
+
+  /* ========= TEXT ========= */
+  --color-text: #111827;
+  --color-text-muted: #4B5563;
+  --color-text-light: #9CA3AF;
+
+  /* ========= BORDERS ========= */
+  --color-border: #E5E7EB;
+  --color-divider: #D1D5DB;
+
+  /* ========= ACCENTS ========= */
+  --color-accent: #E6C2C8;
+  --color-accent-gray: #B7A8AD;
+  --color-highlight: #F5E8EB;
+
+  /* ========= NEGROS PREMIUM ========= */
+  --color-black-elegant: #0D0F14;
+  --color-black-soft: #12151C;
+
+  /* ========= GRISES DARK-READY ========= */
+  --color-gray-1: #161A22;
+  --color-gray-2: #1C212B;
+  --color-gray-3: #242A35;
+  --color-gray-4: #2E3542;
+  --color-gray-5: #3A4252;
+  --color-gray-6: #586174;
+
+  --color-gray-text: #E5E7EB;
+  --color-gray-text-muted: #B6BDC9;
+
+
+  --color-dk-background: #0D0F14;
+  --color-dk-surface: #161A22;
+  --color-dk-muted-bg: #1C212B;
+
+  --color-dk-text: #E5E7EB;
+  --color-dk-text-muted: #B6BDC9;
+  --color-dk-text-light: #8F96A3;
+
+  --color-dk-border: #2E3542;
+  --color-dk-divider: #242A35;
+
+  --color-dk-highlight: #2A1A1F;
+
+  /* ========= FONTS ========= */
+  --font-primary: "Broela", serif;
+  --font-text: "Poppis", system-ui, sans-serif;
+  --font-accent: "LegendSacred", serif;
+}
+
+/* =========================================
+   FONT UTILITIES (SEMÁNTICAS)
+========================================= */
+@utility font-primary {
+  font-family: var(--font-primary);
+}
+
+@utility font-text {
+  font-family: var(--font-text);
+}
+
+@utility font-accent {
+  font-family: var(--font-accent);
+}
+
+/* =========================================
+   FONT FACE
+========================================= */
+@font-face {
+  font-family: "Broela";
+  src: url("/fonts/broela.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppis";
+  src: url("/fonts/poppis.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LegendSacred";
+  src: url("/fonts/legend-sacred.woff2") format("woff2");
+  font-display: swap;
+}
