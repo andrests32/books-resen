@@ -1,5 +1,5 @@
 ---
-import type { Book } from '@/interfaces/books-types'
+import { getCollection } from 'astro:content'
 import { client } from '@/lib/client'
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
@@ -14,17 +14,8 @@ import {
 	CarouselPrevious
 } from '@/components/starwind/carousel'
 
-const respose = await client.getEntries({
-	content_type: 'books'
-})
-
-const books: Book[] = respose.items.map((item: any) => ({
-	title: item.fields.title,
-	slug: item.fields.slug,
-	description: item.fields.description,
-	body: item.fields.body, // luego puedes transformarlo
-	image: `https:${item.fields.imagen.fields.file.url}`
-}))
+const heroCollection = await getCollection('books')
+const heroBooks = heroCollection.map((item) => item.data)
 ---
 
 <h1 class="flex flex-col items-start justify-start lg:px-20 lg:pt-10 lg:pb-20">
@@ -33,6 +24,7 @@ const books: Book[] = respose.items.map((item: any) => ({
 	>
 		Books-Resen
 	</Title>
+
 	<p class="font-text text-text-muted dark:text-primary-100 lg:text-4xl">
 		reseñas de libros en español
 	</p>
@@ -40,18 +32,21 @@ const books: Book[] = respose.items.map((item: any) => ({
 
 <Carousel
 	id="carousel-autoplay"
-	autoInit={true}
-	opts={{ align: 'start' }}
-	class="mx-auto flex max-w-420 items-center justify-end select-none"
+	autoInit={false}
+	opts={{
+		align: 'start',
+		loop: true
+	}}
+	class="bg-muted-bg dark:bg-black-soft mx-auto flex max-w-400 items-center justify-end rounded-3xl select-none"
 >
 	<CarouselPrevious />
 
-	<CarouselContent class="h-160">
+	<CarouselContent class="flex border-none lg:h-160" aria-label="Libros destacados">
 		{
-			books.map((book) => (
-				<CarouselItem class="h-full">
-					<Card class="bg-muted-bg dark:bg-black-soft h-full rounded-4xl border-none shadow-none">
-						<CardContent class="bg-muted-bg dark:bg-black-soft grid h-full grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:px-10">
+			heroBooks.map((book) => (
+				<CarouselItem class="h-full basis-full">
+					<Card class="h-full bg-transparent shadow-none">
+						<CardContent class="grid h-full grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:px-10">
 							{/* TEXTO */}
 							<div class="flex flex-col justify-center space-y-6">
 								<h3 class="font-text text-gray-5 dark:text-dk-text lg:pb-15 lg:pl-8 lg:text-5xl">
@@ -79,19 +74,6 @@ const books: Book[] = respose.items.map((item: any) => ({
 								<p class="font-text dark:text-dk-text-muted max-w-xl text-lg font-thin lowercase italic lg:pl-8 lg:text-2xl">
 									{book.description}
 								</p>
-
-								{/* <div class="bg-surface dark:bg-primary-100 flex w-max items-center justify-start gap-4 rounded-full px-6 py-2">
-									<a
-										href={`/books/${book.slug}`}
-										class="font-text text-text dark:text-surface text-xl"
-									>
-										Ver más
-									</a>
-
-									<div class="text-primary-100 dark:text-surface">
-										<Icon name="row-left" size={30} class="ml-2 inline-block" />
-									</div>
-								</div> */}
 							</div>
 
 							{/* IMAGEN */}
@@ -114,25 +96,24 @@ const books: Book[] = respose.items.map((item: any) => ({
 
 	<CarouselNext />
 </Carousel>
-
 <script>
 	import Autoplay from 'embla-carousel-autoplay'
-
 	import { initCarousel } from '@/components/starwind/carousel'
 
 	function initAutoplayCarousel() {
 		const carouselElement = document.getElementById('carousel-autoplay')
 		if (!carouselElement) return
+
 		initCarousel(carouselElement, {
 			plugins: [
 				Autoplay({
-					delay: 6000
+					delay: 6000,
+					stopOnInteraction: false
 				})
 			]
 		})
 	}
 
 	initAutoplayCarousel()
-
 	document.addEventListener('astro:after-swap', initAutoplayCarousel)
 </script>
