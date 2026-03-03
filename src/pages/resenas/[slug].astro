@@ -1,0 +1,101 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getCollection } from 'astro:content'
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
+import Layout from '@/Layout/Layout.astro'
+import { Image } from 'astro:assets'
+import type { Book } from '@/interfaces/books-types'
+
+export async function getStaticPaths() {
+	const books = await getCollection('books')
+	return books.map((book) => ({
+		params: { slug: book.data.slug },
+		props: { book: book.data }
+	}))
+}
+
+const { book } = Astro.props as { book: Book }
+
+console.log(JSON.stringify(book.body, null, 2))
+
+// 🔥 Protección contra body undefined
+let bodyHtml = ''
+
+if (book.body?.nodeType === 'document') {
+	bodyHtml = documentToHtmlString(book.body)
+} else {
+	console.warn(`El libro "${book.slug}" no tiene body válido`)
+}
+---
+
+<Layout title={`${book.title} | BooksResen`}>
+	<section class="mx-auto max-w-6xl px-6 py-20">
+		<!-- Botón volver -->
+		<button
+			onclick="history.back()"
+			class="group text-primary-100 mb-12 inline-flex items-center gap-2 text-xl font-medium"
+		>
+			<Icon name="row" class="h-8 w-8 rotate-90" />
+			Volver
+		</button>
+
+		<!-- Header principal -->
+		<div class="grid gap-16 lg:grid-cols-[380px_1fr] lg:items-start">
+			<!-- Imagen -->
+			<div class="flex justify-center lg:justify-start">
+				<div class="w-64 lg:w-80">
+					<Image
+						transition:name={`image-fade-${book.slug}`}
+						src={book.image}
+						width={600}
+						height={900}
+						alt={book.title}
+						class="rounded-2xl object-cover shadow-xl"
+						priority
+					/>
+				</div>
+			</div>
+
+			<!-- Info principal -->
+			<div class="flex flex-col justify-center space-y-8">
+				<!-- Título -->
+				<h1 class="font-primary text-primary-100 text-4xl leading-tight tracking-tight lg:text-6xl">
+					{book.title}
+				</h1>
+
+				<!-- Frase destacada -->
+				<blockquote
+					class="border-primary-100 max-w-2xl border-l-4 pl-6 text-2xl leading-relaxed text-gray-600 italic lg:text-xl"
+				>
+					{book.bookfrase}
+				</blockquote>
+			</div>
+		</div>
+
+		<!-- Separador elegante -->
+		<div
+			class="via-primary-100/40 my-20 h-px w-full bg-linear-to-r from-transparent to-transparent"
+		>
+		</div>
+
+		<div class="mx-auto max-w-3xl">
+			<p class="font-text text-text-muted dark:text-accent pb-4 text-4xl">Reseña completa</p>
+
+			<!-- Contenido -->
+			<article
+				class="prose prose-lg prose-headings:font-primary prose-headings:text-primary-100 prose-headings:tracking-tight prose-p:font-text prose-p:text-xl prose-p:dark:text-surface prose-p:leading-relaxed prose-strong:text-primary-100 prose-blockquote:border-primary-100 prose-blockquote:text-gray-600 prose-a:text-primary-100 prose-a:no-underline hover:prose-a:underline mx-auto max-w-3xl"
+				set:html={bodyHtml}
+			/>
+		</div>
+
+		<!-- CTA final -->
+		<div class="mt-24 flex justify-center">
+			<button
+				onclick="history.back()"
+				class="border-primary-100 text-primary-100 hover:bg-primary-100 rounded-full border px-8 py-3 text-sm font-semibold transition hover:text-white"
+			>
+				Volver a las reseñas
+			</button>
+		</div>
+	</section>
+</Layout>

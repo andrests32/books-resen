@@ -1,7 +1,11 @@
+import type { Document } from "@contentful/rich-text-types"
+
 export interface Book {
-    title: string;
-    slug: string;
-    description: string;
-    body: any;
-    image: string;
+    id: string
+    title: string
+    bookfrase: string
+    slug: string
+    description: string
+    body: Document
+    image: string
 }

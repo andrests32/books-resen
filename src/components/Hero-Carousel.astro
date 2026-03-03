@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content'
-import { client } from '@/lib/client'
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 import Title from './Title.astro'
@@ -15,7 +14,7 @@ import {
 } from '@/components/starwind/carousel'
 
 const heroCollection = await getCollection('books')
-const heroBooks = heroCollection.map((item) => item.data)
+const heroBooks = heroCollection.map((item) => item.data).slice(0, 4)
 ---
 
 <h1 class="flex flex-col items-start justify-start lg:px-20 lg:pt-10 lg:pb-20">
@@ -72,7 +71,7 @@ const heroBooks = heroCollection.map((item) => item.data)
 								</blockquote>
 
 								<p class="font-text dark:text-dk-text-muted max-w-xl text-lg font-thin lowercase italic lg:pl-8 lg:text-2xl">
-									{book.description}
+									{book.bookfrase}
 								</p>
 							</div>
 

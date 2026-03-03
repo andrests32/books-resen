@@ -28,6 +28,7 @@ export const collections = {
             return response.items.map((item: any) => ({
                 id: item.sys.id, // obligatorio
                 title: item.fields.title,
+                bookfrase: item.fields.bookfrase,
                 slug: item.fields.slug,
                 description: item.fields.description,
                 body: item.fields.body,

@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components'
 ---
 
+<!-- Boton dedicado para el cambio de tema de claro a oscuro... -->
 <button
 	id="toggletheme"
 	class="fixed cursor-pointer p-8 transition-all duration-300 hover:rotate-90"
@@ -11,15 +12,14 @@ import { Icon } from 'astro-icon/components'
 	</div>
 </button>
 
-<script>
-	document.documentElement.classList.toggle(
-		'dark',
-		localStorage.theme === 'dark' ||
-			(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-	)
+<script is:inline>
+	function initBtnTheme() {
+		document.getElementById('toggletheme')?.addEventListener('click', () => {
+			const isDark = document.documentElement.classList.toggle('dark')
+			localStorage.theme = isDark ? 'dark' : 'light'
+		})
+	}
 
-	document.getElementById('toggletheme')?.addEventListener('click', () => {
-		document.documentElement.classList.toggle('dark')
-		localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-	})
+	initBtnTheme()
+	document.addEventListener('astro:after-swap', initBtnTheme)
 </script>

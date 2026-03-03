@@ -10,7 +10,7 @@ interface Props {
 const { title } = Astro.props
 ---
 
-<html lang="en" class="">
+<html lang="en" class="custom-scroll">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -22,6 +22,20 @@ const { title } = Astro.props
 		<link rel="preload" href="/fonts/broela.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/poppis.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/legend-sacred.woff2" as="font" type="font/woff2" crossorigin />
+
+		<script is:inline>
+			function applyTheme() {
+				const isDark =
+					localStorage.theme === 'dark' ||
+					(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+				document.documentElement.classList.toggle('dark', isDark)
+			}
+
+			applyTheme()
+
+			document.addEventListener('astro:page-load', applyTheme)
+		</script>
 
 		<ClientRouter />
 		<title>{title}</title>
@@ -37,5 +51,48 @@ const { title } = Astro.props
 	html {
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
+	}
+	/* Scroll global */
+	html {
+		scrollbar-width: thin;
+	}
+
+	/* Light mode */
+	html:not(.dark) {
+		scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+	}
+
+	/* Dark mode */
+	html.dark {
+		scrollbar-color: rgba(134, 51, 70, 0.5) transparent;
+	}
+
+	/* Chrome, Edge, Safari */
+	html::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	html::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	/* Light */
+	html:not(.dark)::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.25);
+		border-radius: 9999px;
+	}
+
+	html:not(.dark)::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+
+	/* Dark */
+	html.dark::-webkit-scrollbar-thumb {
+		background-color: rgba(134, 51, 70, 0.5);
+		border-radius: 9999px;
+	}
+
+	html.dark::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(134, 51, 70, 0.8);
 	}
 </style>
