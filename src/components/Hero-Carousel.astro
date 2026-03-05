@@ -17,18 +17,6 @@ const heroCollection = await getCollection('books')
 const heroBooks = heroCollection.map((item) => item.data).slice(0, 4)
 ---
 
-<h1 class="flex flex-col items-start justify-start lg:px-20 lg:pt-10 lg:pb-20">
-	<Title
-		class="font-primary text-primary-100 dark:text-surface text-3xl font-semibold antialiased lg:text-[5rem]"
-	>
-		Books-Resen
-	</Title>
-
-	<p class="font-text text-text-muted dark:text-primary-100 lg:text-4xl">
-		reseñas de libros en español
-	</p>
-</h1>
-
 <Carousel
 	id="carousel-autoplay"
 	autoInit={false}
@@ -36,7 +24,7 @@ const heroBooks = heroCollection.map((item) => item.data).slice(0, 4)
 		align: 'start',
 		loop: true
 	}}
-	class="bg-muted-bg dark:bg-black-soft mx-auto flex max-w-400 items-center justify-end rounded-3xl select-none"
+	class="bg-muted-bg dark:bg-black-soft mx-auto mt-20 flex max-w-400 items-center justify-end rounded-3xl select-none"
 >
 	<CarouselPrevious />
 

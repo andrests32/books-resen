@@ -23,6 +23,7 @@ export const collections = {
         loader: async () => {
             const response = await client.getEntries({
                 content_type: "books",
+                include: 2,
             })
 
             return response.items.map((item: any) => ({
@@ -32,7 +33,26 @@ export const collections = {
                 slug: item.fields.slug,
                 description: item.fields.description,
                 body: item.fields.body,
-                image: `https:${item.fields.imagen.fields.file.url}`
+                image: `https:${item.fields.imagen.fields.file.url}`,
+
+                categories: (item.fields.categories || []).map((cat: any) => ({
+                    name: cat.fields.name,
+                    slug: cat.fields.slug
+                }))
+            }))
+        }
+    }),
+
+    categories: defineCollection({
+        loader: async () => {
+            const response = await client.getEntries({
+                content_type: "category",
+            })
+
+            return response.items.map((item: any) => ({
+                id: item.sys.id,
+                name: item.fields.name,
+                slug: item.fields.slug
             }))
         }
     })

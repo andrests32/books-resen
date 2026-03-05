@@ -30,15 +30,6 @@ if (book.body?.nodeType === 'document') {
 
 <Layout title={`${book.title} | BooksResen`}>
 	<section class="mx-auto max-w-6xl px-6 py-20">
-		<!-- Botón volver -->
-		<button
-			onclick="history.back()"
-			class="group text-primary-100 mb-12 inline-flex items-center gap-2 text-xl font-medium"
-		>
-			<Icon name="row" class="h-8 w-8 rotate-90" />
-			Volver
-		</button>
-
 		<!-- Header principal -->
 		<div class="grid gap-16 lg:grid-cols-[380px_1fr] lg:items-start">
 			<!-- Imagen -->
@@ -50,8 +41,8 @@ if (book.body?.nodeType === 'document') {
 						width={600}
 						height={900}
 						alt={book.title}
+						loading="lazy"
 						class="rounded-2xl object-cover shadow-xl"
-						priority
 					/>
 				</div>
 			</div>
@@ -69,6 +60,15 @@ if (book.body?.nodeType === 'document') {
 				>
 					{book.bookfrase}
 				</blockquote>
+
+				<!-- Botón volver -->
+				<button
+					onclick="history.back()"
+					class="group text-primary-100 mb-12 inline-flex items-center gap-2 text-xl font-medium"
+				>
+					<Icon name="row" class="h-8 w-8 rotate-90" />
+					Volver
+				</button>
 			</div>
 		</div>
 
@@ -83,7 +83,7 @@ if (book.body?.nodeType === 'document') {
 
 			<!-- Contenido -->
 			<article
-				class="prose prose-lg prose-headings:font-primary prose-headings:text-primary-100 prose-headings:tracking-tight prose-p:font-text prose-p:text-xl prose-p:dark:text-surface prose-p:leading-relaxed prose-strong:text-primary-100 prose-blockquote:border-primary-100 prose-blockquote:text-gray-600 prose-a:text-primary-100 prose-a:no-underline hover:prose-a:underline mx-auto max-w-3xl"
+				class="prose prose-lg prose-headings:font-primary prose-headings:text-primary-100 prose-headings:tracking-tight prose-p:font-text prose-p:text-xl prose-p:dark:text-gray-text prose-p:leading-relaxed prose-strong:text-primary-100 [&_b]:text-primary-100 prose-blockquote:border-primary-100 prose-blockquote:text-gray-600 prose-a:text-primary-100 prose-a:no-underline hover:prose-a:underline mx-auto max-w-3xl [&_b]:font-semibold"
 				set:html={bodyHtml}
 			/>
 		</div>

@@ -1,0 +1,76 @@
+---
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './starwind/accordion'
+import Title from './Title.astro'
+---
+
+<section class="min-h-screw mx-auto flex max-w-7xl flex-col items-start gap-12 py-20">
+	<Title class="font-text text-primary-100 dark:text-surface text-start text-5xl font-semibold"
+		>Tips para leer tu primer libro</Title
+	>
+
+	<Accordion defaultValue="item-1" type="single" class="w-full">
+		<AccordionItem value="item-1" class="border-primary-100/10 border-b-2 py-6">
+			<AccordionTrigger class="text-black-soft font-text dark:text-primary-100 text-4xl">
+				Elige un libro que te interese
+			</AccordionTrigger>
+			<AccordionContent
+				class="font-text text-text-muted dark:text-text-light text-xl tracking-wide"
+			>
+				Busca un libro que te llame la atención, ya sea por su portada, título o sinopsis. No te
+				preocupes por el género o la dificultad, lo importante es que te motive a leer.
+			</AccordionContent>
+		</AccordionItem>
+
+		<AccordionItem value="item-2" class="border-primary-100/10 border-b-2 py-6">
+			<AccordionTrigger class="text-black-soft font-text dark:text-primary-100 text-4xl">
+				Crea un ambiente cómodo para leer
+			</AccordionTrigger>
+			<AccordionContent
+				class="font-text text-text-muted dark:text-text-light text-xl tracking-wide"
+			>
+				Encuentra un lugar tranquilo y bien iluminado donde puedas concentrarte. Puedes usar una
+				lámpara de lectura, una manta suave o una taza de tu bebida favorita para hacer el momento
+				más agradable.
+			</AccordionContent>
+		</AccordionItem>
+
+		<AccordionItem value="item-3" class="border-primary-100/10 border-b-2 py-6">
+			<AccordionTrigger class="text-black-soft font-text dark:text-primary-100 text-4xl">
+				Establece una rutina de lectura
+			</AccordionTrigger>
+			<AccordionContent
+				class="font-text text-text-muted dark:text-text-light text-xl tracking-wide"
+			>
+				Intenta dedicar un tiempo específico cada día para leer, aunque sea solo 10 o 15 minutos.
+				Esto te ayudará a crear el hábito de la lectura y a disfrutar de tu libro de manera
+				constante.
+			</AccordionContent>
+		</AccordionItem>
+
+		<AccordionItem value="item-4" class="border-primary-100/10 border-b-2 py-6">
+			<AccordionTrigger class="text-black-soft font-text dark:text-primary-100 text-4xl">
+				No te rindas si al principio te cuesta
+			</AccordionTrigger>
+			<AccordionContent
+				class="font-text text-text-muted dark:text-text-light text-xl tracking-wide"
+			>
+				Es normal que al principio te sientas un poco perdido o que no entiendas todo lo que lees.
+				No te desanimes, con el tiempo irás mejorando tu comprensión y disfrutando más de la
+				lectura. Lo importante es que sigas intentándolo y no te rindas.
+			</AccordionContent>
+		</AccordionItem>
+
+		<AccordionItem value="item-5" class="border-primary-100/10 border-b-2 py-6">
+			<AccordionTrigger class="text-black-soft font-text dark:text-primary-100 text-4xl">
+				Comparte tu experiencia con otros
+			</AccordionTrigger>
+			<AccordionContent
+				class="font-text text-text-muted dark:text-text-light text-xl tracking-wide"
+			>
+				Hablar sobre lo que estás leyendo con amigos, familiares o en comunidades en línea puede
+				enriquecer tu experiencia de lectura. Puedes intercambiar opiniones, recomendaciones y
+				descubrir nuevos libros a través de las conversaciones.
+			</AccordionContent>
+		</AccordionItem>
+	</Accordion>
+</section>

@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
+import Title from './Title.astro'
+
+const books = await getCollection('books')
+const categories = await getCollection('categories')
+const resenas = books.map((item) => item.data)
+---
+
+<section class="mx-auto min-h-screen max-w-400 px-6 py-20">
+	<h2>
+		<Title class="font-text text-primary-100 pb-10 text-5xl font-semibold">
+			Categorias Literarias
+		</Title>
+	</h2>
+
+	<!-- Botones -->
+	<div class="mb-12 ml-12 flex h-full items-start justify-start gap-4">
+		<button
+			class="filter-btn bg-primary-400 font-text rounded-lg px-4 py-1 text-2xl text-white capitalize"
+			data-filter="all"
+		>
+			Todos
+		</button>
+
+		{
+			categories.map((cat) => (
+				<button
+					class="filter-btn font-text dark:text-surface h-full text-2xl capitalize"
+					data-filter={cat.data.slug}
+				>
+					{cat.data.name}
+				</button>
+			))
+		}
+	</div>
+
+	<!-- Libros -->
+	<div id="books-container" class="grid w-auto grid-cols-1 gap-6 md:grid-cols-5">
+		{
+			books.map((book) => (
+				<a
+					href={`/resenas/${book.data.slug}`}
+					class="book-card"
+					data-categories={
+						book.data.categories?.map((c: { slug: string }) => c.slug).join(' ') || ''
+					}
+				>
+					<Image
+						src={book.data.image}
+						alt={book.data.title}
+						width={700}
+						height={700}
+						decoding="async"
+						quality="high"
+						loading="lazy"
+						class="h-86 w-86 object-contain"
+					/>
+				</a>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	function initCategory() {
+		const buttons = document.querySelectorAll('.filter-btn')
+		const books = document.querySelectorAll('.book-card')
+
+		buttons.forEach((button) => {
+			button.addEventListener('click', () => {
+				const filter = button.dataset.filter
+
+				// quitar estilo activo
+				buttons.forEach((btn) => {
+					btn.classList.remove('bg-primary-400', 'text-white', 'px-4', 'py-1', 'rounded-lg')
+				})
+
+				// agregar estilo al seleccionado
+				button.classList.add('bg-primary-400', 'text-white', 'px-4', 'py-1', 'rounded-lg')
+
+				books.forEach((book) => {
+					const categories = book.dataset.categories || ''
+					const catArray = categories.split(' ')
+
+					if (filter === 'all' || (filter && catArray.includes(filter))) {
+						book.classList.remove('hidden')
+					} else {
+						book.classList.add('hidden')
+					}
+				})
+			})
+		})
+	}
+
+	initCategory()
+	document.addEventListener('astro:page-load', initCategory)
+</script>

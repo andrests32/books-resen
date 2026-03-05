@@ -1,11 +1,17 @@
 ---
 import { Icon } from 'astro-icon/components'
+
+interface ButtonThemeProps {
+	class?: string
+}
+
+const { class: className = '' } = Astro.props
 ---
 
 <!-- Boton dedicado para el cambio de tema de claro a oscuro... -->
 <button
 	id="toggletheme"
-	class="fixed cursor-pointer p-8 transition-all duration-300 hover:rotate-90"
+	class={`cursor-pointer transition-all duration-300 hover:rotate-90 ${className}`}
 >
 	<div class="text-dk-surface/70 dark:text-surface/50">
 		<Icon name="theme" size={30} />
