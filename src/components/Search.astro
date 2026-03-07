@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/starwind/input-group'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+
+const booksSearch = await getCollection('books')
+---
+
+<section class="relative p-4">
+	<InputGroup>
+		<InputGroupInput id="searchInput" autocomplete="off" placeholder="Buscar libro..." />
+
+		<InputGroupAddon align="inline-start">
+			<Icon name="search" size="28" />
+		</InputGroupAddon>
+	</InputGroup>
+
+	<aside
+		id="search-overlay"
+		class="bg-surface custom-scroll border-text-light/10 absolute top-15 -left-40 z-80 mx-auto hidden h-80 w-130 overflow-y-scroll rounded-2xl border-2 p-10 backdrop-blur-xl dark:bg-[#0a0a0a]"
+	>
+		<div class="mx-auto max-w-4xl">
+			<div id="results" class="grid gap-4 md:grid-cols-1">
+				{
+					booksSearch.map((book) => (
+						<a
+							href={`/resenas/${book.data.slug}`}
+							class="search-item flex items-center gap-4"
+							data-title={book.data.title.toLowerCase()}
+						>
+							<Image
+								src={book.data.image}
+								alt={book.data.title}
+								width={100}
+								height={100}
+								loading="eager"
+								class="h-16 w-12 rounded object-cover"
+							/>
+							<div class="flex flex-col">
+								<h3 class="font-text text-black-soft dark:text-surface line-clamp-1 text-lg font-semibold">
+									{book.data.title}
+								</h3>
+								<p class="font-text text-text-muted dark:text-text-light line-clamp-1 font-thin">
+									{book.data.description}
+								</p>
+							</div>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</aside>
+</section>
+
+<script>
+	function initSearch() {
+		const input = document.getElementById('searchInput')
+		const overlay = document.getElementById('search-overlay')
+		const items = document.querySelectorAll('.search-item')
+
+		// abrir
+		input.addEventListener('focus', () => {
+			overlay.classList.remove('hidden')
+		})
+
+		// filtro
+		input.addEventListener('input', (e) => {
+			const search = e.target.value.toLowerCase()
+
+			items.forEach((item) => {
+				const title = item.dataset.title
+
+				if (title.includes(search)) {
+					item.style.display = 'flex'
+				} else {
+					item.style.display = 'none'
+				}
+			})
+		})
+
+		// cerrar si haces click fuera
+		document.addEventListener('click', (e) => {
+			if (!overlay.contains(e.target) && !input.contains(e.target)) {
+				overlay.classList.add('hidden')
+			}
+		})
+
+		// cerrar con ESC
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') {
+				overlay.classList.add('hidden')
+			}
+		})
+
+		// cerrar al hacer click en un resultado
+		items.forEach((item) => {
+			item.addEventListener('click', () => {
+				overlay.classList.add('hidden')
+			})
+		})
+	}
+
+	initSearch()
+	document.addEventListener('astro:page-load', initSearch)
+</script>
+
+<style>
+	.custom-scroll {
+		overflow-y: auto;
+
+		/* Firefox */
+		scrollbar-width: none;
+
+		/* IE y Edge antiguos */
+		-ms-overflow-style: none;
+	}
+
+	/* Chrome, Safari y Edge modernos */
+	.custom-scroll::-webkit-scrollbar {
+		display: none;
+	}
+</style>

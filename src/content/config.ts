@@ -34,6 +34,10 @@ export const collections = {
                 description: item.fields.description,
                 body: item.fields.body,
                 image: `https:${item.fields.imagen.fields.file.url}`,
+                author: item.fields.author,
+                rating: item.fields.rating,
+                tags: item.fields.tags || [],
+                numpages: item.fields.numpages,
 
                 categories: (item.fields.categories || []).map((cat: any) => ({
                     name: cat.fields.name,

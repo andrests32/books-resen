@@ -1,6 +1,7 @@
 ---
 import ButtonTheme from './Button-Theme.astro'
 import Title from './Title.astro'
+import Search from './Search.astro'
 
 interface Props {
 	class?: string
@@ -11,7 +12,7 @@ const { class: className = '' } = Astro.props
 
 <nav
 	id="main-nav"
-	class={`sticky top-0 z-70 flex flex-5 w-full justify-between lg:pt-20 bg-surface/80 
+	class={`sticky top-0 z-70 flex flex-5 w-full justify-between lg:pt-20 bg-surface/90 
 	 dark:bg-[#0a0a0a]/90 backdrop-blur-md
 	${className}`}
 >
@@ -31,7 +32,7 @@ const { class: className = '' } = Astro.props
 		</p>
 	</h1>
 
-	<div class="relative flex items-end">
+	<div class="relative flex items-end justify-center gap-40">
 		<ul class="flex gap-12">
 			<li>
 				<a
@@ -43,7 +44,7 @@ const { class: className = '' } = Astro.props
 			</li>
 			<li>
 				<a
-					href="#"
+					href="#resenas"
 					class="font-text text-text-muted dark:text-surface/70 hover:text-primary-400 text-2xl transition-colors duration-300"
 				>
 					Reseñas
@@ -51,7 +52,7 @@ const { class: className = '' } = Astro.props
 			</li>
 			<li>
 				<a
-					href="#"
+					href="#categories"
 					class="font-text text-text-muted dark:text-surface/70 hover:text-primary-400 text-2xl transition-colors duration-300"
 				>
 					Categorías
@@ -59,13 +60,15 @@ const { class: className = '' } = Astro.props
 			</li>
 			<li>
 				<a
-					href="#"
+					href="/gallery"
 					class="font-text text-text-muted dark:text-surface/70 hover:text-primary-400 text-2xl transition-colors duration-300"
 				>
-					Tips
+					Galería
 				</a>
 			</li>
 		</ul>
+
+		<Search />
 	</div>
 
 	<ButtonTheme class="mr-8 flex h-full items-start justify-start" />

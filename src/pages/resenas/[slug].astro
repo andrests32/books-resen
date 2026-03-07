@@ -56,17 +56,60 @@ if (book.body?.nodeType === 'document') {
 
 				<!-- Frase destacada -->
 				<blockquote
-					class="border-primary-100 max-w-2xl border-l-4 pl-6 text-2xl leading-relaxed text-gray-600 italic lg:text-xl"
+					class="border-primary-100 max-w-2xl border-l-4 pl-6 text-xl leading-relaxed text-gray-600 italic lg:text-2xl"
 				>
 					{book.bookfrase}
 				</blockquote>
 
+				<!-- Info del libro -->
+				<div class="grid grid-cols-2 gap-4 text-lg md:flex md:flex-wrap md:gap-8">
+					<!-- Autor -->
+					<div class="flex items-center gap-2 text-gray-600">
+						<Icon name="author" class="text-primary-100 h-8 w-8" />
+						<span>{book.author}</span>
+					</div>
+
+					<!-- Páginas -->
+					<div class="flex items-center gap-2 text-gray-600">
+						<Icon name="pages" class="text-primary-100 h-6 w-6" />
+						<span>{book.numpages} páginas</span>
+					</div>
+
+					<!-- Rating -->
+					<div class="flex items-center gap-2">
+						<div class="flex text-yellow-500">
+							{
+								Array.from({ length: 5 }).map((_, i) => (
+									<span class={i < book.rating ? 'opacity-100' : 'opacity-30'}>
+										<Icon name="star" class="h-6 w-6 text-yellow-400" />
+									</span>
+								))
+							}
+						</div>
+					</div>
+				</div>
+
+				<!-- Tags -->
+				<div class="flex flex-wrap gap-3">
+					{
+						book.tags.map((tag) => (
+							<span class="bg-text-light/20 dark:bg-primary-400/10 text-gray-2 dark:text-primary-100 font-text flex items-center gap-2 rounded-full px-4 py-1 text-lg capitalize">
+								<Icon name="tag" class="h-6 w-6" />
+								{tag}
+							</span>
+						))
+					}
+				</div>
+
 				<!-- Botón volver -->
 				<button
 					onclick="history.back()"
-					class="group text-primary-100 mb-12 inline-flex items-center gap-2 text-xl font-medium"
+					class="group text-primary-100 inline-flex w-25 items-center gap-2 text-lg font-medium"
 				>
-					<Icon name="row" class="h-8 w-8 rotate-90" />
+					<Icon
+						name="row"
+						class="h-8 w-8 rotate-90 transition-transform group-hover:-translate-x-1"
+					/>
 					Volver
 				</button>
 			</div>
